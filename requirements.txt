@@ -1,0 +1,15 @@
+asgiref==3.6.0
+distlib==0.3.6
+Django==4.2.1
+django-appconf==1.0.5
+django-compressor==4.3.1
+filelock==3.12.0
+Pillow==10.0.0
+platformdirs==3.5.0
+psycopg2==2.9.7
+pytz==2023.3
+rcssmin==1.1.1
+rjsmin==1.2.1
+sqlparse==0.4.4
+tzdata==2023.3
+virtualenv==20.23.0
