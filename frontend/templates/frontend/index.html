@@ -1,0 +1,142 @@
+{% extends "frontend/layout.html" %}
+{% load static %}
+
+{% block extraHead %}
+<link rel="stylesheet" href="{% static 'css/swiper-bundle.min.css' %}">
+<style>
+    .swiper-pagination-bullet {
+        background-color: #64748b;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<!-- main slider -->
+<div class="items-center xl:flex xl:px-16">
+    {% if sliders|length > 1 %}
+    <div class="relative hidden font-bold transition-all duration-300 xl:block swiper-button-next text-slate-500 dark:text-slate-100"></div>
+    {% endif %}
+    <div class="shadow-lg xl:w-11/12 w-full mx-auto xl:rounded-tl-[10rem] xl:rounded-tr-2xl xl:rounded-bl-2xl xl:rounded-br-[10rem] h-[70vh] swiper mainSlider">
+        <div class="swiper-wrapper">
+            {% for slider in sliders %}
+            <div class="relative swiper-slide">
+                <div class="relative z-10 flex flex-col-reverse items-center justify-end w-full h-full pt-10 xl:pt-0 gap-y-10 xl:flex-row xl:justify-evenly">
+                    <div class="flex flex-col justify-center w-1/2">
+                        <p class="mb-2 text-lg font-bold text-center opacity-0 md:text-3xl 2xl:text-5xl slideTitle">{{slider.title}}</p>
+                        <div class="h-0 overflow-hidden md:text-xl text-md !leading-loose text-center 2xl:text-3xl slideBody">
+                            {{slider.body}}
+                        </div>
+                    </div>
+                    <img class="2xl:w-96 xl:w-80 lg:w-72 w-60 slideImage" src="{{slider.main_img.image.url}}">
+                </div>
+                <img class="absolute inset-0 object-cover w-full h-full" src="{{slider.bg.image.url}}" alt="{{slider.title}}" />  
+            </div>
+            {% endfor %}
+        </div>
+        <div class="swiper-pagination"></div>
+        
+    </div>
+    {% if sliders|length > 1 %}
+    <div class="relative hidden font-bold transition-all duration-300 xl:block dark:text-slate-100 swiper-button-prev text-slate-500"></div>
+    {% endif %}
+</div>
+
+<!-- About -->
+<section class="flex flex-col items-center gap-10 py-16 section">
+    <p class="px-3 text-xl font-bold text-gray-700 rounded-full xl:text-4xl dark:text-white">من نحن</p>
+    <p class="leading-relaxed xl:text-xl dark:text-gray-300">لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على العميل ليتصور طريقه وضع النصوص بالتصاميم سواء كانت تصاميم مطبوعه ... بروشور او فلاير على سبيل المثال ... او نماذج مواقع انترنت ...
+        
+        وعند موافقه العميل المبدئيه على التصميم يتم ازالة هذا النص من التصميم ويتم وضع النصوص النهائية المطلوبة للتصميم ويقول البعض ان وضع النصوص التجريبية بالتصميم قد تشغل المشاهد عن وضع الكثير من الملاحظات او الانتقادات للتصميم الاساسي.
+        
+        وخلافاَ للاعتقاد السائد فإن لوريم إيبسوم ليس نصاَ عشوائياً، بل إن له جذور في الأدب اللاتيني الكلاسيكي منذ العام 45 قبل الميلاد. من كتاب "حول أقاصي الخير والشر"
+    </p>
+    <p class="px-3 py-1 font-bold text-white bg-gray-700 rounded-full cursor-pointer lg:px-5 lg:py-2 xl:text-xl">اقرأ المزيد</p>
+</section >
+
+<!-- ---------------------------------------------------------------------- -->
+<section class="relative flex flex-col items-center gap-10 py-16 section">
+    <p class="px-3 text-xl font-bold text-gray-700 rounded-full xl:text-4xl dark:text-white">الأخبار</p>
+
+    <div class="w-full swiper slider1">
+        <div class="swiper-wrapper">
+
+            <div class="swiper-slide">
+                <div class="relative overflow-hidden bg-white border border-gray-200 shadow group rounded-xl dark:bg-gray-800 dark:border-gray-700">
+                    <a class="block overflow-hidden h-60" href="#">
+                        <img class="w-full h-full transition-all duration-300 group-hover:scale-110" src="http://127.0.0.1:8000/media/images/Pngtreeblue_with_white_shape_islamic_1347326.png" alt="" />
+                    </a>
+                    <div style="clip-path: polygon(0 0, 100% 0%, 100% 99%, 0 75%);" class="absolute h-10 bg-gray-800 bottom-20"></div>
+                    <div class="p-5 bg-gray-700">
+                        <a href="#">
+                            <h5 class="h-16 mb-2 font-bold tracking-tight transition-all duration-300 text-md xl:text-2xl dark:text-white line-clamp-2">عنصر تجريبي عنصر تجريبي عنصر تجريبي عنصر تجريبي عنصر تجريبي عنصر تجريبي عنصر تجريبي عنصر تجريبي عنصر تجريبي عنصر تجريبي عنصر تجريبي عنصر تجريبي عنصر تجريبي عنصر تجريبي عنصر تجريبي </h5>
+                        </a>
+                        <p class="h-16 mb-3 text-sm xl:text-md dark:text-gray-300 line-clamp-2">تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل </p>
+                        <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-700 rounded-full">
+                            اقرأ المزيد
+                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 20 20" aria-hidden="true" class="transition-all duration-300 group-hover:-translate-x-2" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="overflow-hidden bg-white border border-gray-200 shadow group rounded-xl dark:bg-gray-800 dark:border-gray-700">
+                    <a class="block overflow-hidden h-60" href="#">
+                        <img class="object-cover w-full h-full transition-all duration-300 group-hover:scale-110" src="http://127.0.0.1:8000/media/images/6ad309629f66274c.png" alt="" />
+                    </a>
+                    <div class="p-5 bg-gray-700">
+                        <a href="#">
+                            <h5 class="h-16 mb-2 font-bold tracking-tight transition-all duration-300 text-md xl:text-2xl dark:text-white line-clamp-2">عنصر تجريبي</h5>
+                        </a>
+                        <p class="h-16 mb-3 text-sm xl:text-md dark:text-gray-300 line-clamp-2">تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل </p>
+                        <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-700 rounded-full">
+                            اقرأ المزيد
+                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 20 20" aria-hidden="true" class="transition-all duration-300 group-hover:-translate-x-2" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="overflow-hidden bg-white border border-gray-200 shadow group rounded-xl dark:bg-gray-800 dark:border-gray-700">
+                    <a class="block overflow-hidden h-60" href="#">
+                        <img class="object-cover w-full h-full transition-all duration-300 group-hover:scale-110" src="http://127.0.0.1:8000/media/images/ad309629f66274c8.png" alt="" />
+                    </a>
+                    <div class="p-5 bg-gray-700">
+                        <a href="#">
+                            <h5 class="h-16 mb-2 font-bold tracking-tight transition-all duration-300 text-md xl:text-2xl dark:text-white line-clamp-2">عنصر تجريبي</h5>
+                        </a>
+                        <p class="h-16 mb-3 text-sm xl:text-md dark:text-gray-300 line-clamp-2">تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل </p>
+                        <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-700 rounded-full">
+                            اقرأ المزيد
+                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 20 20" aria-hidden="true" class="transition-all duration-300 group-hover:-translate-x-2" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="overflow-hidden bg-white border border-gray-200 shadow group rounded-xl dark:bg-gray-800 dark:border-gray-700">
+                    <a class="block overflow-hidden h-60" href="#">
+                        <img class="object-cover w-full h-full transition-all duration-300 group-hover:scale-110" src="http://127.0.0.1:8000/media/images/bg.jpg" alt="" />
+                    </a>
+                    <div class="p-5 bg-gray-700">
+                        <a href="#">
+                            <h5 class="h-16 mb-2 font-bold tracking-tight transition-all duration-300 text-md xl:text-2xl dark:text-white line-clamp-2">عنصر تجريبي</h5>
+                        </a>
+                        <p class="h-16 mb-3 text-sm xl:text-md dark:text-gray-300 line-clamp-2">تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل </p>
+                        <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-700 rounded-full">
+                            اقرأ المزيد
+                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 20 20" aria-hidden="true" class="transition-all duration-300 group-hover:-translate-x-2" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+<script src="{% static 'js/gsap.min.js' %}"></script>
+<script src="{% static 'js/swiper-bundle.min.js' %}"></script>
+<script src="{% static 'js/home.js' %}"></script>
+{% endblock %}

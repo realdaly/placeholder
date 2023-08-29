@@ -1,0 +1,46 @@
+{% load compress %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="!font-jazeera">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    {% block extraHead %}{% endblock %}
+
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    {% endcompress %}
+
+</head>
+<body class="!overflow-x-hidden max-w-[100vw] transition-all duration-300 bg-white dark:bg-gray-900">
+    <header class="sticky top-0 z-50">
+        {% include 'frontend/components/Nav.html' %}
+        {% include 'frontend/components/StickySocial.html' %}
+    </header>
+    {% block body %}{% endblock %}
+    
+    <script src="{% static 'js/alpinejs_presist.js' %}"></script>
+    <script src="{% static 'js/alpinejs.js' %}"></script>
+    <script>
+        // Toggle the dark mode
+        function toggleDarkMode(){
+            const isDarkMode = document.documentElement.classList.toggle("dark")
+            localStorage.setItem("darkMode", isDarkMode)
+        }
+        
+        // Retrieve the dark mode preference from localStorage (if set)
+        const savedDarkMode = localStorage.getItem("darkMode")
+        if (savedDarkMode === "true"){
+            document.documentElement.classList.add("dark")
+        }
+        
+        // Attach the click event listener to the theme toggle button
+        const themeToggleBtn = document.getElementById("theme-toggle")
+        themeToggleBtn.addEventListener("click", toggleDarkMode)
+        </script>
+</body>
+</html>
