@@ -35,6 +35,3 @@ class Main_Slider(models.Model):
     body = models.CharField(max_length=1000, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     order = models.PositiveIntegerField(default=0)
-
-    def __str__(self):
-        return self.title
