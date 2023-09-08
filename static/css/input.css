@@ -21,7 +21,8 @@
 
 @layer components {
   .section {
-      width: 90vw;
+      max-width: 100rem;
       margin: 0 auto;
+      padding: 0 1.25rem;
   }
 }

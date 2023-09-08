@@ -22,10 +22,22 @@
 
             <div x-cloak :class="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 translate-x-full']" class="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white shadow-md lg:bg-transparent lg:dark:bg-transparent lg:shadow-none dark:bg-gray-900 lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:w-auto lg:opacity-100 lg:translate-x-0">
                 <div class="-mx-4 text-lg font-bold lg:flex lg:items-center">
-                    <a href="#" class="block mx-4 text-gray-700 capitalize dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400">الرئيسية</a>
-                    <a href="#" class="block mx-4 mt-4 text-gray-700 capitalize lg:mt-0 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400">حول</a>
-                    <a href="#" class="block mx-4 mt-4 text-gray-700 capitalize lg:mt-0 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400">النشاطات</a>
-                    <a href="#" class="block mx-4 mt-4 text-gray-700 capitalize lg:mt-0 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400">تواصل معنا</a>
+
+                    <!-- looping over Page model objects -->
+                    {% for page in pages %}
+                        {% if page.is_nav %}
+                        <a href="{{ page.slug }}" class="block mx-4 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400">
+                            {{ page.title }}
+                            {% if page.sub_pages.all|length > 0 %}
+                                {% for item in page.sub_pages.all %}
+                                <span>{{ item.title }}</span>
+                                {% endfor %}
+
+                            {% endif %}
+                        </a>
+                        {% endif %}
+                    {% endfor %}
+
                 </div>
             </div>
         </div>

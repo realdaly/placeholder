@@ -19,7 +19,9 @@
 <body class="!overflow-x-hidden max-w-[100vw] transition-all duration-300 bg-white dark:bg-gray-900">
     <header class="sticky top-0 z-50">
         {% include 'frontend/components/Nav.html' %}
+        {% if social_items|length > 0 %}
         {% include 'frontend/components/StickySocial.html' %}
+        {% endif %}
     </header>
     {% block body %}{% endblock %}
     
