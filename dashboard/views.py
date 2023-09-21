@@ -13,6 +13,7 @@ from .forms import *
 def index(request):
     media_path = request.build_absolute_uri("/media/")
     configurations = General.objects.first()
+    social_items = Social_Item.objects.all()
 
     if request.method == "POST":
         form = GeneralForm(request.POST, instance=configurations)
@@ -22,7 +23,11 @@ def index(request):
         else:
             message = "البيانات غير صالحة"
 
-    context = {"configurations":configurations, "media_path":media_path}
+    context = {
+        "configurations":configurations,
+        "media_path":media_path, 
+        "social_items":social_items
+    }
 
     return render(request, "dashboard/index.html", context)
 
