@@ -7,7 +7,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/swiper-bundle.min.css' %}">
+
+    <title>{{ website_config.title }}</title>
     
     {% block extraHead %}{% endblock %}
 
@@ -16,7 +18,7 @@
     {% endcompress %}
 
 </head>
-<body class="!overflow-x-hidden max-w-[100vw] transition-all duration-300 bg-white dark:bg-gray-900">
+<body class="!overflow-x-hidden !max-w-[100vw] transition-all duration-300 bg-white dark:bg-gray-900">
     <header class="sticky top-0 z-50">
         {% include 'frontend/components/Nav.html' %}
         {% if social_items|length > 0 %}
@@ -27,7 +29,17 @@
     
     <script src="{% static 'js/alpinejs_presist.js' %}"></script>
     <script src="{% static 'js/alpinejs.js' %}"></script>
+    <script src="{% static 'js/swiper-bundle.min.js' %}"></script>
     <script>
+        const nav = new Swiper(".nav", {
+            navigation: {
+                nextEl: ".nav-prev",
+                prevEl: ".nav-next",
+            },
+            slidesPerView: "auto",
+            slidesPerGroup: 4,
+        })
+
         // Toggle the dark mode
         function toggleDarkMode(){
             const isDarkMode = document.documentElement.classList.toggle("dark")
@@ -43,6 +55,6 @@
         // Attach the click event listener to the theme toggle button
         const themeToggleBtn = document.getElementById("theme-toggle")
         themeToggleBtn.addEventListener("click", toggleDarkMode)
-        </script>
+    </script>
 </body>
 </html>

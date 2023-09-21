@@ -1,0 +1,152 @@
+{% load compress %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title>{{ website_config.title }}</title>
+
+        {% block extraHead %}{% endblock %}
+
+        {% compress css %}
+        <link rel="stylesheet" href="{% static 'css/output.css' %}">
+        {% endcompress %}
+    </head>
+    <body class="font-jazeera">
+        <div x-data="setup()" x-init="$refs.loading.classList.add('hidden'); setColors(color);" :class="{ 'dark': isDark}">
+            <div class="flex h-screen antialiased text-gray-900 bg-gray-100 dark:bg-dark dark:text-light">
+                <!-- Loading screen -->
+                {% include 'dashboard/components/Loading.html' %}
+
+                <!-- Sidebar -->
+                {% include 'dashboard/components/Sidebar.html' %}
+
+                <div class="flex flex-col flex-1 min-h-screen overflow-x-hidden overflow-y-auto">
+                    <!-- Header -->
+                    {% include 'dashboard/components/Header.html' %}
+                    
+
+                    <!-- Dynamic body -->
+                    <div class="h-screen">
+                        <div class="flex items-center justify-between px-4 py-4 mb-5 border-b lg:py-6">
+                            <h1 class="text-xl font-semibold">لوحة التحكم - {% block dynamicName %}{% endblock %}</h1>
+                        </div>
+                        {% block body %}{% endblock %}
+                    </div>
+
+
+                    <!-- Settings Panel -->
+                    {% include 'dashboard/components/panels/Settings.html' %}
+                    
+                    <!-- Notification panel -->
+                    {% include 'dashboard/components/panels/Notification.html' %}
+                    
+                    <!-- Search panel -->
+                    {% include 'dashboard/components/panels/Search.html' %}
+                    
+                    <!-- Footer -->
+                    {% include 'dashboard/components/Footer.html' %}
+                </div>
+            </div>
+        </div>
+
+
+        <script src="{% static 'js/alpinejs_helpers.js' %}"></script>
+        <script src="{% static 'js/alpinejs_presist.js' %}"></script>
+        <script src="{% static 'js/alpinejs.js' %}" defer></script>
+        <script>
+            const setup = () => {
+            const getTheme = () => {
+                if (window.localStorage.getItem('dark')) {
+                return JSON.parse(window.localStorage.getItem('dark'))
+                }
+                return !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+            }
+
+            const setTheme = (value) => {
+                window.localStorage.setItem('dark', value)
+            }
+
+            const getColor = () => {
+                if (window.localStorage.getItem('color')) {
+                return window.localStorage.getItem('color')
+                }
+                return 'cyan'
+            }
+
+            const setColors = (color) => {
+                const root = document.documentElement
+                root.style.setProperty('--color-primary', `var(--color-${color})`)
+                root.style.setProperty('--color-primary-50', `var(--color-${color}-50)`)
+                root.style.setProperty('--color-primary-100', `var(--color-${color}-100)`)
+                root.style.setProperty('--color-primary-light', `var(--color-${color}-light)`)
+                root.style.setProperty('--color-primary-lighter', `var(--color-${color}-lighter)`)
+                root.style.setProperty('--color-primary-dark', `var(--color-${color}-dark)`)
+                root.style.setProperty('--color-primary-darker', `var(--color-${color}-darker)`)
+                this.selectedColor = color
+                window.localStorage.setItem('color', color)
+            }
+
+            return {
+                loading: true,
+                isDark: getTheme(),
+                color: getColor(),
+                selectedColor: 'cyan',
+                toggleTheme() {
+                this.isDark = !this.isDark
+                setTheme(this.isDark)
+                },
+                setLightTheme() {
+                this.isDark = false
+                setTheme(this.isDark)
+                },
+                setDarkTheme() {
+                this.isDark = true
+                setTheme(this.isDark)
+                },
+                setColors,
+                toggleSidbarMenu() {
+                this.isSidebarOpen = !this.isSidebarOpen
+                },
+                isSettingsPanelOpen: false,
+                openSettingsPanel() {
+                this.isSettingsPanelOpen = true
+                this.$nextTick(() => {
+                    this.$refs.settingsPanel.focus()
+                })
+                },
+                isNotificationsPanelOpen: false,
+                openNotificationsPanel() {
+                this.isNotificationsPanelOpen = true
+                this.$nextTick(() => {
+                    this.$refs.notificationsPanel.focus()
+                })
+                },
+                isSearchPanelOpen: false,
+                openSearchPanel() {
+                this.isSearchPanelOpen = true
+                this.$nextTick(() => {
+                    this.$refs.searchInput.focus()
+                })
+                },
+                isMobileSubMenuOpen: false,
+                openMobileSubMenu() {
+                this.isMobileSubMenuOpen = true
+                this.$nextTick(() => {
+                    this.$refs.mobileSubMenu.focus()
+                })
+                },
+                isMobileMainMenuOpen: false,
+                openMobileMainMenu() {
+                this.isMobileMainMenuOpen = true
+                this.$nextTick(() => {
+                    this.$refs.mobileMainMenu.focus()
+                })
+                },
+            }
+            }
+        </script>
+    </body>
+</html>

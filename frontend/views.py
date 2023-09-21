@@ -1,4 +1,5 @@
 from django.shortcuts import render
+
 from .models import *
 
 # Create your views here.
@@ -8,6 +9,6 @@ def index(request):
 
     context = {
         "sliders": sliders,
-        "posts": posts
+        "posts": posts,
     }
     return render(request, "frontend/index.html", context)

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'compressor',
 
     'frontend',
+    'dashboard'
 ]
 
 MIDDLEWARE = [
@@ -58,7 +59,7 @@ ROOT_URLCONF = 'placeholder.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'frontend/templates'],
+        'DIRS': [BASE_DIR / 'frontend/templates', 'dashboard/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -66,7 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'frontend.custom_context.custom_context'
+                'dashboard.custom_context.custom_context',
             ],
         },
     },

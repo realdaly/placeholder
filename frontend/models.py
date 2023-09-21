@@ -4,9 +4,17 @@ from django.utils import timezone
 # Create your models here.
 class Image(models.Model):
     image = models.ImageField(upload_to="images", blank=False)
+    title = models.CharField(max_length=250, null=True, blank=True)
 
     def __str__(self):
         return f"{self.id}"
+    
+    def save(self, *args, **kwargs):
+        if not self.title:
+            filename = self.image.name
+            self.title = filename.split('.')[0]
+        
+        super().save(*args, **kwargs)
     
 
 
@@ -24,6 +32,9 @@ class Social_Item(models.Model):
 
     type = models.CharField(max_length=20, choices=ITEM_CHOICES, null=True, blank=True)
     link = models.CharField(max_length=1000, null=True, blank=True)
+    is_active = models.BooleanField(default=False)
+    order = models.PositiveIntegerField(default=0)
+
 
     def __str__(self):
         return f"{self.type}: {self.link}"
@@ -31,7 +42,11 @@ class Social_Item(models.Model):
 
     
 class General(models.Model):
+    title = models.CharField(max_length=255, null=True, blank=True)
     logo = models.ForeignKey(Image, null=True, blank=True, related_name="logo", on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.title
 
 
 
