@@ -109,7 +109,7 @@ def page_items(request, slug):
         "page": page,
     }
 
-    return render(request, "dashboard/pages/items_page.html", context)
+    return render(request, "dashboard/pages/items.html", context)
 
 
 def subpage_items(request, slug, pk):
@@ -124,4 +124,14 @@ def subpage_items(request, slug, pk):
         "subpage":subpage,
     }
 
-    return render(request, "dashboard/pages/items_page.html", context)
+    return render(request, "dashboard/pages/items.html", context)
+
+
+def add_page_item(request, slug):
+    page = Page.objects.get(slug=slug)
+
+    context = {
+        "page": page,
+    }
+
+    return render(request, "dashboard/pages/add.html", context)
