@@ -5,7 +5,7 @@
 
 {% block body %}
 
-<div x-data="{ modalOpen: false }" class="flex flex-col px-5 gap-y-5">
+<div x-data="{ modalOpen: false }" class="flex flex-col sm:px-5 gap-y-5">
 
     <!-- edit title div -->
     <div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
@@ -44,33 +44,144 @@
     </div>
 
     <!-- edit social media div -->
-    <div class="p-4 bg-white rounded-md dark:bg-darker">
+    <div class="w-full p-4 bg-white rounded-md dark:bg-darker">
         <div>
             <h6 class="mb-5 text-xs font-medium leading-none text-gray-500 dark:text-primary-light">
                 مواقع التواصل الاجتماعي
             </h6>
-            {% for item in social_items %}
-            <div class="flex flex-wrap items-center">
-                <div class="flex items-center gap-x-2">
-                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="3.5rem" width="3.5rem" xmlns="http://www.w3.org/2000/svg"><path d="M880 112H144c-17.7 0-32 14.3-32 32v736c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zm-92.4 233.5h-63.9c-50.1 0-59.8 23.8-59.8 58.8v77.1h119.6l-15.6 120.7h-104V912H539.2V602.2H434.9V481.4h104.3v-89c0-103.3 63.1-159.6 155.3-159.6 44.2 0 82.1 3.3 93.2 4.8v107.9z"></path></svg>
-                    <input
-                        class="w-1/2 px-4 py-2 border rounded-md dark:bg-darker dark:border-gray-700 focus:outline-none focus:ring focus:ring-primary-100 dark:focus:ring-primary-darker" 
-                        placeholder="ضع الرابط هنا" 
-                        required=""
-                        id="adminTitle"
-                        value="{{ item.link }}"
-                    >
+            <div class="flex flex-col gap-7">
+                {% for item in social_items %}
+                <div 
+                    x-data="{ edit_{{ item.type }}: false }" 
+                    class="flex flex-wrap items-center gap-5"
+                    data-type="{{ item.type }}"
+                    data-link="{{ item.link }}"
+                    data-is_active="{{ item.is_active }}"
+                    data-order="{{ item.order }}"
+                    id="social_item_{{ item.id }}"
+                >
+                    <div class="flex flex-wrap items-center gap-3">
+                        {% if item.type == "facebook" %}
+                        <div>
+                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="2.5rem" width="2.5rem" xmlns="http://www.w3.org/2000/svg"><path d="M400 32H48A48 48 0 0 0 0 80v352a48 48 0 0 0 48 48h137.25V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.27c-30.81 0-40.42 19.12-40.42 38.73V256h68.78l-11 71.69h-57.78V480H400a48 48 0 0 0 48-48V80a48 48 0 0 0-48-48z"></path></svg>
+                        </div>
+                        {% elif item.type == "instagram" %}
+                        <div>
+                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="2.5rem" width="2.5rem" xmlns="http://www.w3.org/2000/svg"><path d="M224,202.66A53.34,53.34,0,1,0,277.36,256,53.38,53.38,0,0,0,224,202.66Zm124.71-41a54,54,0,0,0-30.41-30.41c-21-8.29-71-6.43-94.3-6.43s-73.25-1.93-94.31,6.43a54,54,0,0,0-30.41,30.41c-8.28,21-6.43,71.05-6.43,94.33S91,329.26,99.32,350.33a54,54,0,0,0,30.41,30.41c21,8.29,71,6.43,94.31,6.43s73.24,1.93,94.3-6.43a54,54,0,0,0,30.41-30.41c8.35-21,6.43-71.05,6.43-94.33S357.1,182.74,348.75,161.67ZM224,338a82,82,0,1,1,82-82A81.9,81.9,0,0,1,224,338Zm85.38-148.3a19.14,19.14,0,1,1,19.13-19.14A19.1,19.1,0,0,1,309.42,189.74ZM400,32H48A48,48,0,0,0,0,80V432a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V80A48,48,0,0,0,400,32ZM382.88,322c-1.29,25.63-7.14,48.34-25.85,67s-41.4,24.63-67,25.85c-26.41,1.49-105.59,1.49-132,0-25.63-1.29-48.26-7.15-67-25.85s-24.63-41.42-25.85-67c-1.49-26.42-1.49-105.61,0-132,1.29-25.63,7.07-48.34,25.85-67s41.47-24.56,67-25.78c26.41-1.49,105.59-1.49,132,0,25.63,1.29,48.33,7.15,67,25.85s24.63,41.42,25.85,67.05C384.37,216.44,384.37,295.56,382.88,322Z"></path></svg>
+                        </div>
+                        {% elif item.type == "telegram" %}
+                        <div class="ml-1 p-1.5 text-white bg-gray-900 rounded-md">
+                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1.5rem" width="1.5rem" xmlns="http://www.w3.org/2000/svg"><path d="M446.7 98.6l-67.6 318.8c-5.1 22.5-18.4 28.1-37.3 17.5l-103-75.9-49.7 47.8c-5.5 5.5-10.1 10.1-20.7 10.1l7.4-104.9 190.9-172.5c8.3-7.4-1.8-11.5-12.9-4.1L117.8 284 16.2 252.2c-22.1-6.9-22.5-22.1 4.6-32.7L418.2 66.4c18.4-6.9 34.5 4.1 28.5 32.2z"></path></svg>
+                        </div>
+                        {% elif item.type == "twitter" %}
+                        <div>
+                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="2.5rem" width="2.5rem" xmlns="http://www.w3.org/2000/svg"><path d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm-48.9 158.8c.2 2.8.2 5.7.2 8.5 0 86.7-66 186.6-186.6 186.6-37.2 0-71.7-10.8-100.7-29.4 5.3.6 10.4.8 15.8.8 30.7 0 58.9-10.4 81.4-28-28.8-.6-53-19.5-61.3-45.5 10.1 1.5 19.2 1.5 29.6-1.2-30-6.1-52.5-32.5-52.5-64.4v-.8c8.7 4.9 18.9 7.9 29.6 8.3a65.447 65.447 0 0 1-29.2-54.6c0-12.2 3.2-23.4 8.9-33.1 32.3 39.8 80.8 65.8 135.2 68.6-9.3-44.5 24-80.6 64-80.6 18.9 0 35.9 7.9 47.9 20.7 14.8-2.8 29-8.3 41.6-15.8-4.9 15.2-15.2 28-28.8 36.1 13.2-1.4 26-5.1 37.8-10.2-8.9 13.1-20.1 24.7-32.9 34z"></path></svg>
+                        </div>
+                        {% elif item.type == "whatsapp" %}
+                        <div>
+                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="2.5rem" width="2.5rem" xmlns="http://www.w3.org/2000/svg"><path d="M224 122.8c-72.7 0-131.8 59.1-131.9 131.8 0 24.9 7 49.2 20.2 70.1l3.1 5-13.3 48.6 49.9-13.1 4.8 2.9c20.2 12 43.4 18.4 67.1 18.4h.1c72.6 0 133.3-59.1 133.3-131.8 0-35.2-15.2-68.3-40.1-93.2-25-25-58-38.7-93.2-38.7zm77.5 188.4c-3.3 9.3-19.1 17.7-26.7 18.8-12.6 1.9-22.4.9-47.5-9.9-39.7-17.2-65.7-57.2-67.7-59.8-2-2.6-16.2-21.5-16.2-41s10.2-29.1 13.9-33.1c3.6-4 7.9-5 10.6-5 2.6 0 5.3 0 7.6.1 2.4.1 5.7-.9 8.9 6.8 3.3 7.9 11.2 27.4 12.2 29.4s1.7 4.3.3 6.9c-7.6 15.2-15.7 14.6-11.6 21.6 15.3 26.3 30.6 35.4 53.9 47.1 4 2 6.3 1.7 8.6-1 2.3-2.6 9.9-11.6 12.5-15.5 2.6-4 5.3-3.3 8.9-2 3.6 1.3 23.1 10.9 27.1 12.9s6.6 3 7.6 4.6c.9 1.9.9 9.9-2.4 19.1zM400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zM223.9 413.2c-26.6 0-52.7-6.7-75.8-19.3L64 416l22.5-82.2c-13.9-24-21.2-51.3-21.2-79.3C65.4 167.1 136.5 96 223.9 96c42.4 0 82.2 16.5 112.2 46.5 29.9 30 47.9 69.8 47.9 112.2 0 87.4-72.7 158.5-160.1 158.5z"></path></svg>
+                        </div>
+                        {% elif item.type == "youtube" %}
+                        <div>
+                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="2.5rem" width="2.5rem" xmlns="http://www.w3.org/2000/svg"><path d="M186.8 202.1l95.2 54.1-95.2 54.1V202.1zM448 80v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V80c0-26.5 21.5-48 48-48h352c26.5 0 48 21.5 48 48zm-42 176.3s0-59.6-7.6-88.2c-4.2-15.8-16.5-28.2-32.2-32.4C337.9 128 224 128 224 128s-113.9 0-142.2 7.7c-15.7 4.2-28 16.6-32.2 32.4-7.6 28.5-7.6 88.2-7.6 88.2s0 59.6 7.6 88.2c4.2 15.8 16.5 27.7 32.2 31.9C110.1 384 224 384 224 384s113.9 0 142.2-7.7c15.7-4.2 28-16.1 32.2-31.9 7.6-28.5 7.6-88.1 7.6-88.1z"></path></svg>
+                        </div>
+                        {% else %}
+                        <div class="px-3 py-2 ml-0.5 text-white bg-gray-900 rounded-md">
+                            <span class="font-bold">{{ item.type|make_list|first }}</span>
+                        </div>
+                        {% endif %}
+                        <div 
+                            :class="{ 'hidden': !edit_{{ item.type }} }" 
+                            class="flex flex-wrap items-center hidden gap-5 pb-5 border-b border-gray-300 sm:pb-0 sm:border-b-0 sm:pl-5 sm:border-l"
+                        >
+                            <input
+                                class="max-w-xs px-4 py-2 border rounded-md dark:bg-darker dark:border-gray-700 focus:outline-none focus:ring focus:ring-primary-100 dark:focus:ring-primary-darker" 
+                                placeholder="ضع الرابط هنا" 
+                                required=""
+                                value="{{ item.link }}"
+                                x-ref="linkInput_{{ item.type }}"
+                                id="edit_link"
+                            >
+                            <input type="number" id="edit_order" value="{{ item.order }}" class="w-16 px-2 bg-gray-200 rounded-md" min="0" required="">
+                            <button 
+                                class="p-2 transition-all duration-300 bg-gray-200 rounded-lg hover:bg-gray-300"
+                                onclick="editItem('social_item_{{ item.id }}');document.getElementById('social_itemForm').action = `{% url 'dashboard:editSocialItem' item.id %}`;document.getElementById('social_itemForm').submit()"
+                            >
+                                <svg stroke="currentColor" fill="currentColor" stroke-width="0" version="1" viewBox="0 0 48 48" enable-background="new 0 0 48 48" height="25" width="25" xmlns="http://www.w3.org/2000/svg"><polygon fill="#43A047" points="40.6,12.1 17,35.7 7.4,26.1 4.6,29 17,41.3 43.4,14.9"></polygon></svg>
+                            </button>
+                        </div>
+                        <p 
+                            :class="{ 'hidden': edit_{{ item.type }} }"
+                            class="max-w-xs w-72 px-4 py-1.5 overflow-hidden border rounded-md line-clamp-1 dark:bg-darker dark:border-gray-700 focus:outline-none focus:ring focus:ring-primary-100 dark:focus:ring-primary-darker"
+                        >
+                            {{ item.link }}
+                        </p>
+                    </div>
+    
+                    <!-- buttons -->
+                    <div class="flex gap-x-3">
+                        <!-- edit button -->
+                        <button
+                            class="p-2 transition-all duration-300 bg-gray-200 rounded-lg hover:bg-gray-300"
+                            @click="edit_{{ item.type }} = !edit_{{ item.type }};$nextTick(() => { $refs.linkInput_{{ item.type }}.focus(); })"
+                        >
+                            <svg :class="{ 'hidden': edit_{{ item.type }} }" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path>
+                                <polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon>
+                            </svg>
+
+                            <svg :class="{ 'hidden': !edit_{{ item.type }} }" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 48 48">
+                                <path fill="#F44336" d="M21.5 4.5H26.501V43.5H21.5z" transform="rotate(45.001 24 24)"></path><path fill="#F44336" d="M21.5 4.5H26.5V43.501H21.5z" transform="rotate(135.008 24 24)"></path>
+                            </svg>
+
+                        </button>
+
+                        <!-- delete button -->
+                        <a href="{% url 'dashboard:deleteSocialItem' item.id %}" class="p-2 text-white transition-all duration-300 bg-red-500 rounded-lg hover:bg-red-600">
+                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="25" width="25" xmlns="http://www.w3.org/2000/svg"><path d="M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z"></path></svg>
+                        </a>
+                        
+                        <!-- toggle state button -->
+                        <div class="flex items-center justify-center" x-data="{toggle_{{ item.type }}: {% if item.is_active %} '1' {% else %} '0' {% endif %} }">                          
+                            <div 
+                                class="relative w-12 h-6 transition duration-200 ease-linear rounded-full"
+                                :class="[toggle_{{ item.type }} === '1' ? 'bg-green-400' : 'bg-gray-400']"
+                            >
+                                <label 
+                                    for="toggle_{{ item.type }}"
+                                    class="absolute right-0 w-6 h-6 mb-2 transition duration-100 ease-linear transform bg-white border-2 rounded-full cursor-pointer"
+                                    :class="[toggle_{{ item.type }} === '1' ? '-translate-x-full border-green-400' : 'translate-x-0 border-gray-400']"
+                                >
+                                </label>
+                                <input 
+                                    type="checkbox" 
+                                    id="toggle_{{ item.type }}" 
+                                    name="toggle_{{ item.type }}"
+                                    class="w-full h-full appearance-none cursor-pointer active:outline-none focus:outline-none"
+                                    @click="toggle_{{ item.type }} === '0' ? toggle_{{ item.type }} = '1' : toggle_{{ item.type }} = '0'"
+                                    onclick="activateItem('social_item_{{ item.id }}');document.getElementById('social_itemForm').action = `{% url 'dashboard:editSocialItem' item.id %}`;document.getElementById('social_itemForm').submit()"
+                                />
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
+    
+                {% empty %}
+                القائمة فارغة.
+                {% endfor %}
             </div>
 
-            {% empty %}
-            القائمة فارغة.
-            {% endfor %}
-
-            <button class="p-3 mt-3 flex items-center gap-x-2 justify-between transition-all duration-300 bg-gray-200 rounded-lg hover:bg-gray-300" @click="modalOpen = true">
-                <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            {% if has_choice %}
+            <button 
+                class="flex items-center justify-between p-3 mt-5 transition-all duration-300 bg-gray-200 rounded-lg gap-x-2 hover:bg-gray-300" 
+                @click="modalOpen = true;$nextTick(() => { $refs.add_input.focus(); })"
+                onclick="insertAddItem()"
+            >
+                <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1rem" width="1rem" xmlns="http://www.w3.org/2000/svg"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                 إضافة رابط تواصل اجتماعي
             </button>
+            {% endif %}
         </div>
     </div>
     
@@ -92,6 +203,7 @@
             id="modal"
             class="max-w-screen-2xl px-8 py-12 min-w-[20%] text-center bg-white rounded-lg w-fit"
         >
+           
         </div>
     </div>
     
@@ -100,11 +212,20 @@
 
 
 
-<!-- backend model form -->
-<form class="hidden" method="POST" id="editForm">
+<!-- General model form -->
+<form class="hidden" method="POST" id="generalForm">
     {% csrf_token %}
     <input id="title" type="text" name="title" value="{{ configurations.title }}" maxlength="255">
     <input id="logo" type="text" name="logo" value="{{ configurations.logo.id }}">
+</form>
+
+<!-- Social_Item model form -->
+<form class="hidden" method="POST" id="social_itemForm">
+    {% csrf_token %}
+    <input id="type" type="text" name="type" value="{{ choices|first }}">
+    <input id="link" type="text" name="link" value="">
+    <input id="is_active" type="checkbox" name="is_active" checked>
+    <input id="order" type="text" name="order" value="0">
 </form>
 
 <script>
@@ -116,13 +237,13 @@
         </h3>
     
         <input
-            class="w-full px-4 py-2 border rounded-md dark:bg-darker dark:border-gray-700 focus:outline-none focus:ring focus:ring-primary-100 dark:focus:ring-primary-darker" 
+            class="w-full max-w-xl px-4 py-2 border rounded-md dark:bg-darker dark:border-gray-700 focus:outline-none focus:ring focus:ring-primary-100 dark:focus:ring-primary-darker" 
             type="text" 
             placeholder="اكتب العنوان هنا" 
             required=""
             id="adminTitle"
             x-ref="input"
-            x-on:keydown.enter="document.getElementById('title').value = document.getElementById('adminTitle').value;document.getElementById('editForm').submit()"
+            x-on:keydown.enter="document.getElementById('title').value = document.getElementById('adminTitle').value;document.getElementById('generalForm').submit()"
         >
         
         <div class="flex flex-wrap justify-center mt-5 -mx-3">
@@ -137,7 +258,7 @@
             <div class="w-1/6 px-3">
                 <button
                     class="block w-full p-3 text-base font-bold text-center transition border rounded-lg bg-primary border-primary hover:bg-opacity-90"
-                    x-on:click="document.getElementById('title').value = document.getElementById('adminTitle').value;document.getElementById('editForm').submit()"
+                    x-on:click="document.getElementById('title').value = document.getElementById('adminTitle').value;document.getElementById('generalForm').submit()"
                 >
                     تم
                 </button>
@@ -171,7 +292,7 @@
                 <div class="w-1/6 px-3">
                     <button
                         class="block w-full p-3 text-base font-bold text-center transition border rounded-lg bg-primary border-primary hover:bg-opacity-90"
-                        x-on:click="document.getElementById('editForm').submit()"
+                        x-on:click="document.getElementById('generalForm').submit()"
                     >
                         تم
                     </button>
@@ -216,6 +337,82 @@
         image.classList.add("border-red-500", "scale-110", "border-2")
     }
 
+    function activateItem(item){
+        const socialItem = document.getElementById(item)
+        document.getElementById("type").value = socialItem.dataset.type
+        document.getElementById("link").value = socialItem.dataset.link
+        document.getElementById("order").value = socialItem.dataset.order
+
+        const itemIsActive = socialItem.dataset.is_active
+        const formIsActive = document.getElementById("is_active")
+        
+        if(itemIsActive == "True"){
+            formIsActive.checked = false
+        } else{
+            formIsActive.checked = true
+        }
+    }
+
+    function editItem(item){
+        const socialItem = document.getElementById(item)
+        document.getElementById("type").value = socialItem.dataset.type
+        document.getElementById("is_active").value = socialItem.dataset.is_active
+        
+        document.getElementById("link").value = socialItem.querySelector("#edit_link").value
+        document.getElementById("order").value = socialItem.querySelector("#edit_order").value
+    }
+
+    function insertAddItem(){
+        modal.innerHTML = 
+            `<h3 class="pb-2 mb-3 text-xl font-bold text-dark sm:text-2xl">
+                إضافة رابط تواصل اجتماعي
+            </h3>
+            <div class="flex flex-wrap items-center justify-center gap-4 mb-4">
+                <input
+                    class="max-w-xs px-4 py-2 border rounded-md sm:max-w-md dark:bg-darker dark:border-gray-700 focus:outline-none focus:ring focus:ring-primary-100 dark:focus:ring-primary-darker" 
+                    placeholder="ضع الرابط هنا" 
+                    required=""
+                    value=""
+                    id="admin_link"
+                    x-ref="add_input"
+                >
+                <select id="admin_type" class="block max-w-sm px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" @change="changeCategory">
+                    {% for choice in choices %}
+                    <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="flex items-center justify-center sm:justify-start gap-x-4">
+                <p>الترتيب: </p>
+                <input type="number" id="admin_order" value="0" class="w-16 px-2 bg-gray-200 rounded-md" min="0" required="">
+            </div>
+            <div class="flex flex-wrap justify-center mt-5 -mx-3">
+                <div class="w-1/6 px-3">
+                    <button
+                        @click="modalOpen = false"
+                        class="block w-full p-3 text-base font-bold text-center text-white transition bg-red-600 border rounded-lg"
+                    >
+                        إلغاء
+                    </button>
+                </div>
+                <div class="w-1/6 px-3">
+                    <button
+                        class="block w-full p-3 text-base font-bold text-center transition border rounded-lg bg-primary border-primary hover:bg-opacity-90"
+                        onclick="addItem()"
+                    >
+                        تم
+                    </button>
+                </div>
+            </div>`
+    }
+
+    function addItem(){
+        document.getElementById("type").value = document.getElementById("admin_type").value
+        document.getElementById("link").value = document.getElementById("admin_link").value
+        document.getElementById("order").value = document.getElementById("admin_order").value
+        document.getElementById("social_itemForm").action = "{% url 'dashboard:createSocialItem' %}"
+        document.getElementById("social_itemForm").submit()
+    }
 </script>
 
 {% endblock %}
